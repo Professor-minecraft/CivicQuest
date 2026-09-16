@@ -1,4 +1,5 @@
-export const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+export const API_BASE =
+  process.env.NEXT_PUBLIC_API_URL || "https://civicquest-backend.onrender.com";
 
 export type UserRole = "USER" | "AUDITOR" | "ADMIN";
 
@@ -114,20 +115,18 @@ export interface MapHub {
 
 export const api = {
   // --- Auth ---
-  async login(username: string, password: string): Promise<AuthResponse> {
-    const formData = new URLSearchParams();
-    formData.append("username", username);
-    formData.append("password", password);
-
-    const res = await fetch(`${API_BASE}/api/auth/token`, {
+  async login(email: string, password: string): Promise<AuthResponse> {
+    const res = await fetch(`${API_BASE}/api/auth/login`, {
       method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: formData.toString(),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
     });
+
     if (!res.ok) {
       const err = await res.json().catch(() => ({ detail: "Login failed" }));
       throw new Error(err.detail || "Invalid credentials");
     }
+
     return res.json();
   },
 
@@ -155,7 +154,7 @@ export const api = {
   async logout(): Promise<void> {
     try {
       await fetch(`${API_BASE}/api/auth/logout`, { method: "POST" });
-    } catch {}
+    } catch { }
     if (typeof window !== "undefined") {
       localStorage.removeItem("civicquest_token");
     }

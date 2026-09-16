@@ -6,12 +6,13 @@ import { CheckCircle2, Clock3, LocateFixed, Navigation, ShieldCheck } from "luci
 import { toast } from "sonner";
 import { distanceMeters, type Project } from "@/lib/demo-data";
 import { type CheckIn, type DemoAction, type Submission } from "@/lib/demo-state";
-import { api } from "@/lib/api";
+//import { api } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { API_BASE, api } from "@/lib/api";
 
 export function CheckInDetails({ checkIn }: { checkIn: CheckIn }) {
   return <div className="check-in-details"><Navigation className="size-4" /><div>{checkIn.kind === "simulated" ? <><strong>Simulated visit</strong><p>No real location evidence was collected.</p></> : <><strong>GPS: {Math.round(checkIn.distance)} m from sample location</strong><p>Accuracy ±{Math.round(checkIn.accuracy)} m · {checkIn.lat.toFixed(5)}, {checkIn.lng.toFixed(5)}</p></>}<small>{new Date(checkIn.timestamp).toLocaleString()}</small></div></div>;
@@ -114,7 +115,7 @@ export function EvidenceDialog({ project, submission, dispatch, onClose, onQuest
         submission: {
           id: res.id,
           projectId: project.id,
-          photo: res.photo_url ? (res.photo_url.startsWith("http") ? res.photo_url : `${api.login.name ? "http://localhost:8000" : ""}${res.photo_url}`) : photo,
+          photo: res.photo_url ? (res.photo_url.startsWith("http") ? res.photo_url : `${api.login.name ? API_BASE : ""}${res.photo_url}`) : photo,
           fileName: res.file_name || fileName || "evidence.jpg",
           observation,
           notes: notes.trim(),
