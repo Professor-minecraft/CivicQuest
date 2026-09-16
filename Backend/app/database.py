@@ -8,8 +8,9 @@ logger = logging.getLogger("civicquest.database")
 def get_engine():
     db_url = settings.DATABASE_URL
     connect_args = {}
-    if "sqlite" in db_url:
+    if db_url.startswith("sqlite://"):
         connect_args["check_same_thread"] = False
+
     try:
         engine = create_engine(
             db_url,
@@ -22,9 +23,9 @@ def get_engine():
         logger.info(f"Connected to database successfully: {db_url.split('@')[-1] if '@' in db_url else db_url}")
         return engine
     except Exception as e:
-        logger.warning(f"Could not connect to configured DATABASE_URL ({e}). Falling back to local SQLite database for local continuity.")
-        fallback_url = "sqlite:///./civicquest_local.db"
-        return create_engine(fallback_url, connect_args={"check_same_thread": False})
+        logger.error(f"Failed to connect to database at {db_url.split('@')[-1] if '@' in db_url else db_url}: {e}")
+        raise
+
 
 engine = get_engine()
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
