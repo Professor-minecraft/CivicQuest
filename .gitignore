@@ -7,3 +7,9 @@ __pycache__/
 *.pyc
 *.tsbuildinfo
 *.log
+.vscode/
+scripts/
+run.bat
+run.ps1
+stop.bat
+stop.ps1
