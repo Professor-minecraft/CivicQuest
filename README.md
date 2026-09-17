@@ -129,7 +129,7 @@ CivicQuest is deployed in a decoupled cloud architecture:
 | **Alternative Docs** | Render (ReDoc) | [`https://civicquest-backend.onrender.com/redoc`](https://civicquest-backend.onrender.com/redoc) | Clean developer reference documentation |
 | **National Folium Map** | Render (Static HTML) | [`https://civicquest-backend.onrender.com/map`](https://civicquest-backend.onrender.com/map) | Full 504-constituency clustered map |
 | **Database** | Render PostgreSQL | Managed PostgreSQL 15+ instance | Primary relational data store |
-| **Frontend Web App** | [Vercel](https://vercel.com) | *Deployed on Vercel* | Next.js 16 App Router interface |
+| **Frontend Web App** | [Vercel](https://vercel.com) | [`https://civicquest-tau.vercel.app`](https://civicquest-tau.vercel.app) | Next.js 16 App Router interface |
 
 > [!NOTE]
 > The backend root endpoint (`GET /`) provides a health check returning the platform status, online state, documentation paths, and active version (`1.0.0`).
